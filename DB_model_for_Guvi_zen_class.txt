@@ -1,0 +1,96 @@
+/* DB model for Guvi zen class */
+// studentinfo
+// mentorinfo
+// taskinfo
+// batchinfo
+// mockinterviewinfo
+// dashboardinfo
+// classinfo
+// leaveinfo
+// queryinfo
+// syllabus
+--------------------------------------------
+Table studentinfo{
+  student_id integer [primary key]
+  student_name varchar
+  mobile_number integer
+  email varchar
+  mentor_id varchar
+  batch_id integer
+  batch_name varchar
+}
+Ref: studentinfo.student_id > batchinfo.student_id
+Ref: studentinfo.student_id > taskinfo.student_id
+Ref: studentinfo.student_id > dashboardinfo.student_id
+Ref: studentinfo.student_id > queryinfo.student_id
+Ref: studentinfo.student_id > mockinterviewinfo.student_id
+Ref: studentinfo.student_id > leaveinfo.student_id
+
+Table mentorinfo{
+  mentor_id integer [primary key]
+  mentor_name varchar
+  email varchar
+  mobile_number integer
+  batch_id integer
+}
+Ref: mentorinfo.mentor_id > batchinfo.mentor_id
+Ref: mentorinfo.mentor_id > studentinfo.mentor_id
+Ref: mentorinfo.mentor_id > dashboardinfo.mentor_id
+Ref: mentorinfo.mentor_id > queryinfo.mentor_id
+Ref: mentorinfo.mentor_id > leaveinfo.mentor_id
+
+Table taskinfo{
+  task_id integer [primary key]
+  student_id integer
+  submited_at timestamp
+}
+
+Table batchinfo{
+  batch_id integer [primary key]
+  batch_name varchar
+  student_id integer
+  mentor_id integer
+}
+Ref: batchinfo.batch_id > studentinfo.batch_id
+Ref: batchinfo.batch_id > mentorinfo.batch_id
+Ref: batchinfo.batch_id > queryinfo.batch_id
+Ref: batchinfo.batch_id > leaveinfo.batch_id
+
+Table mockinterviewinfo{
+  mockinterview_id integer [primary key]
+  mockinterview_name varchar
+  student_id integer
+}
+Table dashboardinfo{
+  dashboard_id integer [primary key]
+  student_id integer
+  mentor_id integer
+}
+Table sessioninfo{
+  session_id integer [primary key]
+  session_name varchar
+  title_id integer
+}
+Table leaveinfo{
+  leave_id integer [primary key]
+  reason text
+  student_id integer
+  mentor_id integer
+  batch_id integer
+}
+Table queryinfo{
+  query_id integer [primary key]
+  query_details text
+  student_id integer
+  mentor_id integer
+  batch_id integer
+}
+Table syllabus{
+  title_id integer [primary key]
+  title_name varchar
+  task_name varchar
+  task_id integer
+}
+
+Ref: syllabus.title_id > sessioninfo.title_id
+Ref: syllabus.task_id > taskinfo.task_id
